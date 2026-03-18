@@ -1,18 +1,18 @@
-"""Imprint Demo — Run this to see persistent, correctable AI memory in action.
+"""NeverOnce Demo — Run this to see persistent, correctable AI memory in action.
 
 Usage:
-    pip install imprint
+    pip install neveronce
     python demo.py
 """
 
-from imprint import Memory
+from neveronce import Memory
 
 print("=" * 60)
-print("  IMPRINT — Persistent, Correctable Memory for AI")
+print("  NEVERONCE — Persistent, Correctable Memory for AI")
 print("  The memory layer that learns from mistakes.")
 print("=" * 60)
 
-# Create a memory store (stored at ~/.imprint/demo.db)
+# Create a memory store (stored at ~/.neveronce/demo.db)
 mem = Memory("demo")
 
 # --- STEP 1: Store memories ---
@@ -76,10 +76,10 @@ print(f"    Correction still there: {'YES' if any(r['memory_type'] == 'correctio
 mem2.close()
 
 print("\n" + "=" * 60)
-print("  Your memories are saved at ~/.imprint/demo.db")
+print("  Your memories are saved at ~/.neveronce/demo.db")
 print("  They persist across sessions. Corrections never decay.")
-print("  That's Imprint. Memory that learns from mistakes.")
+print("  That's NeverOnce. Memory that learns from mistakes.")
 print("=" * 60)
-print("\n  GitHub: https://github.com/WeberG619/imprint")
-print("  PyPI:   pip install imprint")
+print("\n  GitHub: https://github.com/WeberG619/neveronce")
+print("  PyPI:   pip install neveronce")
 print()

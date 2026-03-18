@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="assets/logo.png" alt="Imprint" width="400">
+  <img src="assets/logo.png" alt="NeverOnce" width="400">
 </p>
 
 <p align="center">
-  <a href="https://github.com/WeberG619/imprint/actions"><img src="https://github.com/WeberG619/imprint/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
-  <a href="https://pypi.org/project/imprint/"><img src="https://img.shields.io/pypi/v/imprint" alt="PyPI"></a>
-  <a href="https://pypi.org/project/imprint/"><img src="https://img.shields.io/pypi/pyversions/imprint" alt="Python"></a>
+  <a href="https://github.com/WeberG619/neveronce/actions"><img src="https://github.com/WeberG619/neveronce/actions/workflows/test.yml/badge.svg" alt="Tests"></a>
+  <a href="https://pypi.org/project/neveronce/"><img src="https://img.shields.io/pypi/v/neveronce" alt="PyPI"></a>
+  <a href="https://pypi.org/project/neveronce/"><img src="https://img.shields.io/pypi/pyversions/neveronce" alt="Python"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
   <br>
   <img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue" alt="Platform">
@@ -17,11 +17,11 @@
 
 They gave us MCP for free. They gave us agents for free. Now here's the missing piece — **memory that actually learns** — for free too.
 
-Every AI agent forgets everything when the session ends. Imprint gives them a brain that persists — and more importantly, a brain that **learns from corrections** so the same mistake never happens twice.
+Every AI agent forgets everything when the session ends. NeverOnce gives them a brain that persists — and more importantly, a brain that **learns from corrections** so the same mistake never happens twice.
 
-## Why Imprint?
+## Why NeverOnce?
 
-| Without Imprint | With Imprint |
+| Without NeverOnce | With NeverOnce |
 |---|---|
 | AI forgets everything each session | Memories persist forever |
 | Same mistakes repeated daily | Corrections prevent repeat errors |
@@ -30,7 +30,7 @@ Every AI agent forgets everything when the session ends. Imprint gives them a br
 
 ## Proven in Production
 
-Imprint's correction system was battle-tested for 4 months before open-sourcing:
+NeverOnce's correction system was battle-tested for 4 months before open-sourcing:
 
 | Metric | Value |
 |---|---|
@@ -46,7 +46,7 @@ The most-used correction was surfaced 491 times — and the AI never repeated th
 ## Install
 
 ```bash
-pip install imprint
+pip install neveronce
 ```
 
 **Zero dependencies.** Just Python's built-in SQLite. That's it.
@@ -54,7 +54,7 @@ pip install imprint
 ## Quickstart — 5 lines
 
 ```python
-from imprint import Memory
+from neveronce import Memory
 
 mem = Memory("my_app")
 mem.store("user prefers dark mode", tags=["preference"])
@@ -65,7 +65,7 @@ results = mem.recall("what units should I use?")
 
 ## The Killer Feature: Corrections
 
-Most memory systems just store and retrieve. Imprint has **corrections** — a special memory type that:
+Most memory systems just store and retrieve. NeverOnce has **corrections** — a special memory type that:
 
 - Always stored at **maximum importance** (10/10)
 - Always **surfaces first** in recall results
@@ -90,7 +90,7 @@ This is the difference between an AI that's smart and an AI that **gets smarter*
 
 ### `Memory(name, db_dir=None, namespace="default")`
 
-Create a memory store. Each name gets its own SQLite database at `~/.imprint/<name>.db`.
+Create a memory store. Each name gets its own SQLite database at `~/.neveronce/<name>.db`.
 
 ### `.store(content, *, tags=None, context="", importance=5)`
 
@@ -126,14 +126,14 @@ Returns `{total, corrections, avg_importance, avg_effectiveness}`.
 
 ## MCP Server
 
-Imprint includes an MCP server so any MCP-compatible AI client can use it:
+NeverOnce includes an MCP server so any MCP-compatible AI client can use it:
 
 ```bash
 # Install with MCP support
-pip install imprint[mcp]
+pip install neveronce[mcp]
 
 # Run the server
-python -m imprint
+python -m neveronce
 ```
 
 Add to your MCP config (Claude Code, Cursor, etc.):
@@ -141,22 +141,22 @@ Add to your MCP config (Claude Code, Cursor, etc.):
 ```json
 {
     "mcpServers": {
-        "imprint": {
+        "neveronce": {
             "command": "python",
-            "args": ["-m", "imprint"]
+            "args": ["-m", "neveronce"]
         }
     }
 }
 ```
 
-The server exposes all Imprint operations as MCP tools: `store`, `correct`, `recall`, `check`, `helped`, `forget`, `stats`.
+The server exposes all NeverOnce operations as MCP tools: `store`, `correct`, `recall`, `check`, `helped`, `forget`, `stats`.
 
 ## Multi-Agent Support
 
 Namespaces let multiple agents share a memory store without stepping on each other:
 
 ```python
-from imprint import Memory
+from neveronce import Memory
 
 mem = Memory("team")
 
@@ -177,7 +177,7 @@ One database, multiple agents, isolated context. Cross-namespace search is also 
 
 ## Why FTS5 Instead of Embeddings?
 
-Most memory systems use vector embeddings for search. Imprint uses SQLite FTS5 (full-text search with BM25 ranking) instead. This is a deliberate choice, not a limitation:
+Most memory systems use vector embeddings for search. NeverOnce uses SQLite FTS5 (full-text search with BM25 ranking) instead. This is a deliberate choice, not a limitation:
 
 1. **Corrections are short, high-signal text.** "Never use HTTP for internal services" doesn't need semantic similarity — it needs exact keyword matching. BM25 excels at this.
 2. **Zero dependencies.** Embeddings require numpy, sentence-transformers, or an API call. FTS5 is built into Python's sqlite3. Nothing to install, nothing to break.
@@ -187,7 +187,7 @@ Most memory systems use vector embeddings for search. Imprint uses SQLite FTS5 (
 
 For most correction and preference storage, keyword matching is actually *more* reliable than semantic search. When you store "never use tabs, always use spaces," you want the word "tabs" to trigger that correction — not a semantically similar but different concept.
 
-If your use case needs semantic search, Imprint's architecture is simple enough to extend. But for the core use case — corrections that prevent mistakes — FTS5 is the right tool.
+If your use case needs semantic search, NeverOnce's architecture is simple enough to extend. But for the core use case — corrections that prevent mistakes — FTS5 is the right tool.
 
 ## How It Works
 
@@ -203,7 +203,7 @@ If your use case needs semantic search, Imprint's architecture is simple enough 
 2. **Corrections > memories** — The ability to say "I was wrong" is more important than total recall.
 3. **Feedback-driven** — Memories that help survive. Memories that don't fade away.
 4. **One file, one store** — Each Memory instance is a single `.db` file. Copy it, back it up, share it.
-5. **Model-agnostic** — Works with any LLM. Imprint is the memory, not the brain.
+5. **Model-agnostic** — Works with any LLM. NeverOnce is the memory, not the brain.
 
 ## License
 

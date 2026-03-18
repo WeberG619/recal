@@ -20,4 +20,4 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install -e .
-      - run: python tests/test_imprint.py
+      - run: python tests/test_neveronce.py

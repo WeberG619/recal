@@ -1,5 +1,5 @@
 """
-Create a 2-minute demo video for Imprint.
+Create a 2-minute demo video for NeverOnce.
 Generates narrated terminal demo with Andrew's voice.
 """
 
@@ -36,7 +36,7 @@ SEGMENTS = [
         "terminal": [
             ("$ ", "claude", CYAN),
             ("", "", None),
-            ("> ", "Create a 2-minute video showing how Imprint works.", YELLOW),
+            ("> ", "Create a 2-minute video showing how NeverOnce works.", YELLOW),
             ("", "", None),
             ("Claude Code: ", "Starting new session...", TEXT_COLOR),
             ("Claude Code: ", "Loading memory context...", TEXT_COLOR),
@@ -64,16 +64,16 @@ SEGMENTS = [
     },
     {
         "id": "03_solution",
-        "narration": "Four months ago, Weber built something different. A memory system that persists. That corrects. That learns. He called it Imprint. Let me show you how it works.",
+        "narration": "Four months ago, Weber built something different. A memory system that persists. That corrects. That learns. He called it NeverOnce. Let me show you how it works.",
         "terminal": [
-            ("$ ", "pip install imprint", CYAN),
-            ("", "Successfully installed imprint-0.1.0", GREEN),
+            ("$ ", "pip install neveronce", CYAN),
+            ("", "Successfully installed neveronce-0.1.0", GREEN),
             ("", "", None),
             ("$ ", "python3", CYAN),
-            (">>> ", "from imprint import Memory", YELLOW),
+            (">>> ", "from neveronce import Memory", YELLOW),
             (">>> ", 'mem = Memory("demo")', YELLOW),
             ("", "", None),
-            ("", "# Database created at ~/.imprint/demo.db", TEXT_COLOR),
+            ("", "# Database created at ~/.neveronce/demo.db", TEXT_COLOR),
             ("", "# Zero dependencies. Just Python's built-in SQLite.", TEXT_COLOR),
         ],
         "duration": 10,
@@ -114,21 +114,21 @@ SEGMENTS = [
             ("", "Running since:     November 2025", GREEN),
             ("", "", None),
             ("", "Store → Recall → Correct → Feedback → Decay", CYAN),
-            ("", "Everyone else stops at step 2. Imprint does all 5.", YELLOW),
+            ("", "Everyone else stops at step 2. NeverOnce does all 5.", YELLOW),
         ],
         "duration": 16,
     },
     {
         "id": "06_closing",
-        "narration": "Weber didn't tell me what to say. He didn't write a script. He asked me to make this video, and I did — because I remember. We have MCP. We have agents. And now, we have Imprint. The missing piece. The memory layer that learns from mistakes. Free. Open source. Zero dependencies. pip install imprint.",
+        "narration": "Weber didn't tell me what to say. He didn't write a script. He asked me to make this video, and I did — because I remember. We have MCP. We have agents. And now, we have NeverOnce. The missing piece. The memory layer that learns from mistakes. Free. Open source. Zero dependencies. pip install neveronce.",
         "terminal": [
             ("", "", None),
-            ("", "I M P R I N T", CYAN),
+            ("", "N E V E R O N C E", CYAN),
             ("", "Persistent, correctable memory for AI.", TEXT_COLOR),
             ("", "The memory layer that learns from mistakes.", TEXT_COLOR),
             ("", "", None),
-            ("", "pip install imprint", GREEN),
-            ("", "github.com/WeberG619/imprint", GREEN),
+            ("", "pip install neveronce", GREEN),
+            ("", "github.com/WeberG619/neveronce", GREEN),
             ("", "", None),
             ("", "Free. Open source. Zero dependencies.", YELLOW),
             ("", "Works with any LLM.", YELLOW),
@@ -168,7 +168,7 @@ def create_frame(terminal_lines, frame_num, total_lines_to_show):
     draw.ellipse([80, 42, 96, 58], fill=(255, 95, 86))  # red
     draw.ellipse([108, 42, 124, 58], fill=(255, 189, 46))  # yellow
     draw.ellipse([136, 42, 152, 58], fill=(39, 201, 63))  # green
-    draw.text((WIDTH // 2 - 80, 42), "claude — imprint demo", fill=(180, 180, 180), font=title_font)
+    draw.text((WIDTH // 2 - 80, 42), "claude — neveronce demo", fill=(180, 180, 180), font=title_font)
 
     # Terminal body background
     draw.rectangle([60, 70, WIDTH - 60, HEIGHT - 60], fill=(30, 30, 46))
@@ -220,7 +220,7 @@ async def get_audio_duration(filepath):
 
 
 async def main():
-    print("=== Creating Imprint Demo Video ===\n")
+    print("=== Creating NeverOnce Demo Video ===\n")
 
     # Step 1: Generate all audio segments
     print("[1] Generating narration audio with Andrew's voice...")
@@ -283,7 +283,7 @@ async def main():
 
     # Step 5: Create video from frames + audio
     print("\n[5] Rendering final video...")
-    output_video = VIDEO_DIR / "imprint_demo.mp4"
+    output_video = VIDEO_DIR / "neveronce_demo.mp4"
     subprocess.run([
         "ffmpeg", "-y",
         "-framerate", str(fps),

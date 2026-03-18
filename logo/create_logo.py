@@ -1,7 +1,7 @@
 """
-Create Imprint logo — clean, modern, developer-focused.
+Create NeverOnce logo — clean, modern, developer-focused.
 The logo represents memory that corrects itself:
-a circular imprintl arrow with a checkmark (correction) integrated.
+a circular recall arrow with a checkmark (correction) integrated.
 """
 
 from PIL import Image, ImageDraw, ImageFont
@@ -35,7 +35,7 @@ def draw_arrowhead(draw, tip_x, tip_y, angle_deg, size, color):
 
 
 def create_logo(size=1024, bg_color=None, dark=False):
-    """Create the Imprint logo."""
+    """Create the NeverOnce logo."""
     if bg_color is None:
         bg_color = (20, 20, 30) if dark else (255, 255, 255, 0)
 
@@ -45,11 +45,11 @@ def create_logo(size=1024, bg_color=None, dark=False):
     cx, cy = size // 2, size // 2
 
     # Colors
-    primary = (99, 179, 237)      # Blue — imprintl/memory
+    primary = (99, 179, 237)      # Blue — recall/memory
     accent = (72, 219, 148)       # Green — correction/success
     dark_text = (30, 30, 40) if not dark else (240, 240, 245)
 
-    # Main circular arrow (the "imprintl" symbol)
+    # Main circular arrow (the "recall" symbol)
     radius = int(size * 0.35)
     arc_width = int(size * 0.06)
 
@@ -81,7 +81,7 @@ def create_logo(size=1024, bg_color=None, dark=False):
 
 
 def create_logo_with_text(size=1024, dark=False):
-    """Create logo with 'Imprint' text below."""
+    """Create logo with 'NeverOnce' text below."""
     logo = create_logo(int(size * 0.6), dark=dark)
 
     bg_color = (20, 20, 30, 255) if dark else (255, 255, 255, 0)
@@ -107,7 +107,7 @@ def create_logo_with_text(size=1024, dark=False):
     if not font:
         font = ImageFont.load_default()
 
-    text = "Imprint"
+    text = "NeverOnce"
     bbox = draw.textbbox((0, 0), text, font=font)
     text_w = bbox[2] - bbox[0]
     text_x = (size - text_w) // 2
@@ -147,27 +147,27 @@ def create_favicon(size=64):
 
 
 if __name__ == "__main__":
-    print("Creating Imprint logos...\n")
+    print("Creating NeverOnce logos...\n")
 
     # 1. Icon only (transparent background)
     logo = create_logo(1024)
-    logo.save(os.path.join(OUTPUT_DIR, "imprint_icon.png"))
-    print("  imprint_icon.png (1024x1024, transparent)")
+    logo.save(os.path.join(OUTPUT_DIR, "neveronce_icon.png"))
+    print("  neveronce_icon.png (1024x1024, transparent)")
 
     # 2. Icon dark background
     logo_dark = create_logo(1024, dark=True)
-    logo_dark.save(os.path.join(OUTPUT_DIR, "imprint_icon_dark.png"))
-    print("  imprint_icon_dark.png (1024x1024, dark bg)")
+    logo_dark.save(os.path.join(OUTPUT_DIR, "neveronce_icon_dark.png"))
+    print("  neveronce_icon_dark.png (1024x1024, dark bg)")
 
     # 3. Full logo with text (transparent)
     full = create_logo_with_text(1024)
-    full.save(os.path.join(OUTPUT_DIR, "imprint_logo.png"))
-    print("  imprint_logo.png (1024x1228, with text)")
+    full.save(os.path.join(OUTPUT_DIR, "neveronce_logo.png"))
+    print("  neveronce_logo.png (1024x1228, with text)")
 
     # 4. Full logo dark
     full_dark = create_logo_with_text(1024, dark=True)
-    full_dark.save(os.path.join(OUTPUT_DIR, "imprint_logo_dark.png"))
-    print("  imprint_logo_dark.png (1024x1228, dark)")
+    full_dark.save(os.path.join(OUTPUT_DIR, "neveronce_logo_dark.png"))
+    print("  neveronce_logo_dark.png (1024x1228, dark)")
 
     # 5. Favicon
     fav = create_favicon(64)
@@ -196,11 +196,11 @@ if __name__ == "__main__":
             break
 
     if title_font:
-        social_draw.text((540, 180), "Imprint", fill=(240, 240, 245), font=title_font)
+        social_draw.text((540, 180), "NeverOnce", fill=(240, 240, 245), font=title_font)
         social_draw.text((540, 270), "Persistent, correctable memory for AI", fill=(150, 150, 160), font=tag_font)
-        social_draw.text((540, 340), "pip install imprint", fill=(72, 219, 148), font=desc_font)
+        social_draw.text((540, 340), "pip install neveronce", fill=(72, 219, 148), font=desc_font)
         social_draw.text((540, 390), "400 lines  |  Zero dependencies  |  Any LLM", fill=(120, 120, 130), font=desc_font)
-        social_draw.text((540, 430), "Store → Imprintl → Correct → Feedback → Decay", fill=(99, 179, 237), font=desc_font)
+        social_draw.text((540, 430), "Store → Recall → Correct → Feedback → Decay", fill=(99, 179, 237), font=desc_font)
 
     social.save(os.path.join(OUTPUT_DIR, "social_preview.png"))
     print("  social_preview.png (1280x640, GitHub social)")

@@ -22,9 +22,9 @@ The result? I correct it once — it never makes that mistake again. Not in the 
 
 They gave us MCP for free. They gave us agents for free. So I'm giving away the missing piece — for free too.
 
-Today I'm open-sourcing Imprint — a lightweight memory layer any developer can plug into any AI application.
+Today I'm open-sourcing NeverOnce — a lightweight memory layer any developer can plug into any AI application.
 
-The core idea is simple. Most memory systems do two things: store and recall. Imprint does five:
+The core idea is simple. Most memory systems do two things: store and recall. NeverOnce does five:
 
 Store → Recall → Correct → Feedback → Decay
 
@@ -42,15 +42,15 @@ Link in comments.
 
 ## First Comment (post immediately after)
 
-GitHub: https://github.com/WeberG619/imprint
+GitHub: https://github.com/WeberG619/neveronce
 
 Quick start:
 ```
-pip install imprint
+pip install neveronce
 ```
 
 ```python
-from imprint import Memory
+from neveronce import Memory
 mem = Memory("my_app")
 mem.correct("never do X, always do Y")
 mem.recall("how should I do this?")  # correction surfaces first

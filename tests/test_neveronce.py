@@ -1,10 +1,10 @@
-"""Tests for Imprint."""
+"""Tests for NeverOnce."""
 
 import tempfile
 import os
 from pathlib import Path
 
-from imprint import Memory
+from neveronce import Memory
 
 
 def _tmp_mem(name="test"):

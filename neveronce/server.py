@@ -1,15 +1,15 @@
-"""Imprint MCP Server — Plug memory into any MCP-compatible AI.
+"""NeverOnce MCP Server — Plug memory into any MCP-compatible AI.
 
 Run:
-    python -m imprint.server
-    python -m imprint.server --name my_app --port 0
+    python -m neveronce.server
+    python -m neveronce.server --name my_app --port 0
 
 Or add to your MCP config:
     {
         "mcpServers": {
-            "imprint": {
+            "neveronce": {
                 "command": "python",
-                "args": ["-m", "imprint.server"]
+                "args": ["-m", "neveronce.server"]
             }
         }
     }
@@ -26,7 +26,7 @@ try:
 except ImportError:
     print(
         "MCP server requires the 'mcp' package.\n"
-        "Install it with: pip install imprint[mcp]\n"
+        "Install it with: pip install neveronce[mcp]\n"
         "Or: pip install mcp",
         file=sys.stderr,
     )
@@ -41,12 +41,12 @@ _mem: Memory | None = None
 def _get_mem() -> Memory:
     global _mem
     if _mem is None:
-        _mem = Memory("imprint")
+        _mem = Memory("neveronce")
     return _mem
 
 
 mcp = FastMCP(
-    "imprint",
+    "neveronce",
     instructions="Persistent, correctable memory for AI. The memory layer that learns from mistakes.",
 )
 
@@ -145,7 +145,7 @@ def check(planned_action: str, namespace: str = "default") -> str:
 def helped(memory_id: int, did_help: bool) -> str:
     """Mark whether a surfaced memory actually helped.
 
-    This feedback loop is what makes Imprint learn.
+    This feedback loop is what makes NeverOnce learn.
     Helpful memories get stronger. Unhelpful ones decay.
 
     Args:
@@ -184,9 +184,9 @@ def stats() -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Imprint MCP Server")
-    parser.add_argument("--name", default="imprint",
-                        help="Memory store name (default: imprint)")
+    parser = argparse.ArgumentParser(description="NeverOnce MCP Server")
+    parser.add_argument("--name", default="neveronce",
+                        help="Memory store name (default: neveronce)")
     parser.add_argument("--namespace", default="default",
                         help="Default namespace")
     args = parser.parse_args()

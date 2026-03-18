@@ -64,7 +64,7 @@ You correct the AI once — it's permanent.
 
 **Tweet 5 (the product)**
 
-Today I'm releasing Imprint — the memory layer that learns from mistakes.
+Today I'm releasing NeverOnce — the memory layer that learns from mistakes.
 
 - 400 lines of Python
 - Zero dependencies (just SQLite)
@@ -72,7 +72,7 @@ Today I'm releasing Imprint — the memory layer that learns from mistakes.
 - MCP server included (Claude Code, Cursor, etc.)
 - MIT licensed
 
-https://github.com/WeberG619/imprint
+https://github.com/WeberG619/neveronce
 
 ---
 
@@ -81,7 +81,7 @@ https://github.com/WeberG619/imprint
 5 lines of code:
 
 ```python
-from imprint import Memory
+from neveronce import Memory
 mem = Memory("my_app")
 mem.store("user prefers metric")
 mem.correct("never use imperial units")
@@ -98,10 +98,10 @@ The future of AI isn't just smarter models.
 
 It's models that learn from their mistakes.
 
-I'm building that future. Imprint is step one.
+I'm building that future. NeverOnce is step one.
 
 If you're building AI agents and tired of starting from zero every session — try it.
 
-GitHub: https://github.com/WeberG619/imprint
+GitHub: https://github.com/WeberG619/neveronce
 
 ---
