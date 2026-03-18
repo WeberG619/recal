@@ -151,6 +151,44 @@ Add to your MCP config (Claude Code, Cursor, etc.):
 
 The server exposes all Recal operations as MCP tools: `store`, `correct`, `recall`, `check`, `helped`, `forget`, `stats`.
 
+## Multi-Agent Support
+
+Namespaces let multiple agents share a memory store without stepping on each other:
+
+```python
+from recal import Memory
+
+mem = Memory("team")
+
+# Agent 1: research agent
+mem.store("found 3 relevant papers on transformer memory", namespace="researcher")
+mem.correct("ignore papers before 2024, methodology changed", namespace="researcher")
+
+# Agent 2: coding agent
+mem.store("user prefers async/await over callbacks", namespace="coder")
+mem.correct("always use Python 3.12+ syntax", namespace="coder")
+
+# Each agent recalls only its own context
+research_context = mem.recall("relevant papers", namespace="researcher")
+coding_context = mem.recall("coding style", namespace="coder")
+```
+
+One database, multiple agents, isolated context. Cross-namespace search is also possible by omitting the namespace parameter.
+
+## Why FTS5 Instead of Embeddings?
+
+Most memory systems use vector embeddings for search. Recal uses SQLite FTS5 (full-text search with BM25 ranking) instead. This is a deliberate choice, not a limitation:
+
+1. **Corrections are short, high-signal text.** "Never use HTTP for internal services" doesn't need semantic similarity — it needs exact keyword matching. BM25 excels at this.
+2. **Zero dependencies.** Embeddings require numpy, sentence-transformers, or an API call. FTS5 is built into Python's sqlite3. Nothing to install, nothing to break.
+3. **Speed.** FTS5 queries are sub-millisecond. No model loading, no inference, no API latency.
+4. **Deterministic.** Same query, same results. No embedding model drift or version mismatches.
+5. **Offline.** Works without internet. No API keys, no cloud services.
+
+For most correction and preference storage, keyword matching is actually *more* reliable than semantic search. When you store "never use tabs, always use spaces," you want the word "tabs" to trigger that correction — not a semantically similar but different concept.
+
+If your use case needs semantic search, Recal's architecture is simple enough to extend. But for the core use case — corrections that prevent mistakes — FTS5 is the right tool.
+
 ## How It Works
 
 - **Storage:** SQLite with FTS5 full-text search. Zero external dependencies.
