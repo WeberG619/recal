@@ -7,11 +7,13 @@
   <a href="https://pypi.org/project/recal/"><img src="https://img.shields.io/pypi/v/recal" alt="PyPI"></a>
   <a href="https://pypi.org/project/recal/"><img src="https://img.shields.io/pypi/pyversions/recal" alt="Python"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <br>
+  <img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-blue" alt="Platform">
 </p>
 
 <p align="center"><strong>Persistent, correctable memory for AI. The memory layer that learns from mistakes.</strong></p>
 
-**Free. Open source. Zero dependencies. Works with any LLM.**
+**Free. Open source. Zero dependencies. Works with any LLM. Runs on Linux, macOS, and Windows.**
 
 They gave us MCP for free. They gave us agents for free. Now here's the missing piece — **memory that actually learns** — for free too.
 
