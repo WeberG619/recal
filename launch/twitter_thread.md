@@ -4,11 +4,11 @@
 
 **Tweet 1 (hook)**
 
-Every AI agent has amnesia.
+Your AI agent just mass-emailed every client with the wrong pricing.
 
-You correct it Monday. Tuesday — same mistake.
+You corrected it last week. But agents don't have pre-flight checks.
 
-I fixed this 4 months ago. Today I'm open-sourcing it.
+Today I'm open-sourcing the safety net.
 
 Thread:
 
@@ -16,91 +16,95 @@ Thread:
 
 **Tweet 2 (the problem)**
 
-The AI industry is in an arms race for smarter models.
+They gave us MCP for free.
+They gave us agents for free.
 
-Bigger context windows. Better reasoning. More parameters.
+But nobody gave us the safety net.
 
-But nobody is solving the obvious problem:
+Your agent can call 50 tools and reason across 10 steps — but it can't remember what went wrong last time.
 
-LLMs don't remember.
-
-A 1M context window is not memory. It's short-term recall that vanishes when the session ends.
-
----
-
-**Tweet 3 (what you built)**
-
-4 months ago I built a persistent memory system for my AI workflows.
-
-Every correction I make gets stored permanently.
-Every helpful memory gets stronger.
-Every unhelpful memory fades.
-
-1,421 memories. 87 corrections. Daily use.
-
-My most-used correction has been surfaced 491 times. The AI never repeated that mistake once.
-
-That's not a demo. That's 4 months of production data.
+No pre-flight check. No guard rails. It just... goes.
 
 ---
 
-**Tweet 4 (the framework)**
+**Tweet 3 (the fix)**
 
-Most AI memory systems do 2 things: Store and Recall.
+4 months ago I built a safety layer for my AI agents.
 
-That's a filing cabinet, not a brain.
+Every correction becomes a constraint.
+Every constraint gets enforced before the agent acts.
 
-Real memory has 5 steps:
+87 corrections stored.
+Most-used one surfaced 491 times.
+Zero repeats.
 
-Store → Recall → Correct → Feedback → Decay
+That's not a demo. That's production data.
 
-Step 3 is what nobody does.
+---
 
-Corrections override everything. They surface first. They never fade.
+**Tweet 4 (the guard)**
 
-You correct the AI once — it's permanent.
+The `@guard` decorator is the whole idea:
+
+```python
+from neveronce import Memory, guard
+
+mem = Memory("my_agent")
+mem.correct("never deploy on Fridays")
+
+@guard(mem, mode="block")
+def deploy(version):
+    push_to_prod(version)
+
+deploy("v2.1")  # → Blocked
+```
+
+Three modes: warn, block, review.
+Every invocation logged to an audit trail.
 
 ---
 
 **Tweet 5 (the product)**
 
-Today I'm releasing NeverOnce — the memory layer that learns from mistakes.
+NeverOnce v0.2.0 — the pre-flight check for AI agents.
 
-- 400 lines of Python
+- ~800 lines of Python
+- 74 tests
 - Zero dependencies (just SQLite)
-- Works with any LLM
-- MCP server included (Claude Code, Cursor, etc.)
+- @guard decorator + GuardedAgent class
+- ActionLog audit trail
+- OpenAI, Anthropic, LangChain, CrewAI, AutoGen integrations
+- MCP server included
 - MIT licensed
 
 https://github.com/WeberG619/neveronce
 
 ---
 
-**Tweet 6 (the demo)**
+**Tweet 6 (the architecture)**
 
-5 lines of code:
+Most "AI memory" is just a vector store.
 
-```python
-from neveronce import Memory
-mem = Memory("my_app")
-mem.store("user prefers metric")
-mem.correct("never use imperial units")
-mem.recall("what units?")  # correction first
-```
+NeverOnce is different. Corrections aren't memories — they're constraints:
 
-That's it. That's the whole API.
+- Max importance, immune to decay
+- Always surface first in retrieval
+- Enforced by @guard before execution
+
+It's not about remembering more.
+It's about never repeating the mistake you already caught.
 
 ---
 
 **Tweet 7 (the vision)**
 
-The future of AI isn't just smarter models.
+The future of AI agents isn't just smarter models.
 
-It's models that learn from their mistakes.
+It's agents with safety nets built from their own mistake history.
 
-I'm building that future. NeverOnce is step one.
+Correct once. Guard always. Never repeat.
 
-If you're building AI agents and tired of starting from zero every session — try it.
+If you're building AI agents and shipping without pre-flight checks — try it.
 
 GitHub: https://github.com/WeberG619/neveronce
 

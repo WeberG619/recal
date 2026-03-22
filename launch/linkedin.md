@@ -2,41 +2,44 @@
 
 ---
 
-Every AI has amnesia.
+Your AI agent just mass-emailed every client with the wrong pricing. Again.
 
-You spend 20 minutes correcting it. Next session — same mistakes. Gone. Like it never happened.
+Same mistake it made last Thursday. You corrected it then. But agents don't remember corrections. They don't have a pre-flight check. They just... go.
 
-OpenAI, Anthropic, Google — they're all racing to make models smarter. Bigger context windows. Better reasoning. More parameters.
+OpenAI, Anthropic, Google — they're racing to make models smarter. Bigger context windows. Better reasoning. More parameters. But none of them ship the safety net.
 
-But none of them are solving the real problem: LLMs don't remember.
+They gave us MCP for free. They gave us agents for free. But nobody gave us the safety net. Here it is.
 
-A 1M token context window isn't memory. It's short-term recall that dies when the session ends. That's like having a brilliant employee who gets amnesia every night.
+For the last 4 months, I've been running a safety layer on my AI workflows. Every correction I make becomes a constraint. Every time an agent tries to do something I've already flagged — it gets blocked before it can act.
 
-I decided to fix it myself.
+1,421 memories. 87 corrections. 4 months of daily use. My most-used correction has been surfaced 491 times — and the agent hasn't repeated that mistake once since the day I corrected it.
 
-For the last 4 months, I've been running persistent memory on my AI workflows. Every correction I make gets stored permanently. Every time the AI surfaces a memory that helps, it gets stronger. Every memory that doesn't help fades away.
+Today I'm open-sourcing NeverOnce — the pre-flight check for AI agents.
 
-1,421 memories. 87 corrections. 4 months of daily use. My most-used correction has been surfaced 491 times — and the AI hasn't repeated that mistake once since the day I corrected it.
+The core idea: corrections aren't memories. They're constraints. And the `@guard` decorator enforces them automatically:
 
-The result? I correct it once — it never makes that mistake again. Not in the next session. Not ever.
+```python
+from neveronce import Memory, guard
 
-They gave us MCP for free. They gave us agents for free. So I'm giving away the missing piece — for free too.
+mem = Memory("my_agent")
+mem.correct("never deploy on Fridays", context="deployment")
 
-Today I'm open-sourcing NeverOnce — a lightweight memory layer any developer can plug into any AI application.
+@guard(mem, mode="block")
+def deploy(version: str):
+    push_to_prod(version)
 
-The core idea is simple. Most memory systems do two things: store and recall. NeverOnce does five:
+deploy("v2.1")  # Blocked: "never deploy on Fridays"
+```
 
-Store → Recall → Correct → Feedback → Decay
+Three modes: `warn` (log it), `block` (stop it), `review` (queue for human approval).
 
-That third step — Correct — is what nobody else does well. Corrections override normal memories. They always surface first. They never fade. One correction, permanent fix.
+~800 lines of Python. 74 tests. Zero dependencies. Works with OpenAI, Anthropic, LangChain, CrewAI, AutoGen — or standalone.
 
-400 lines of Python. Zero dependencies. Works with any LLM.
-
-Because the future of AI isn't just smarter models. It's models that learn from their mistakes.
+Because the future of AI isn't just smarter models. It's models that can't repeat the mistakes you've already caught.
 
 Link in comments.
 
-#AI #LLM #OpenSource #MachineLearning #AIMemory #DevTools
+#AI #LLM #OpenSource #AIAgents #AISafety #DevTools
 
 ---
 
@@ -44,16 +47,24 @@ Link in comments.
 
 GitHub: https://github.com/WeberG619/neveronce
 
+v0.2.0 — The pre-flight check for AI agents.
+
 Quick start:
 ```
 pip install neveronce
 ```
 
 ```python
-from neveronce import Memory
-mem = Memory("my_app")
-mem.correct("never do X, always do Y")
-mem.recall("how should I do this?")  # correction surfaces first
+from neveronce import Memory, guard
+
+mem = Memory("my_agent")
+mem.correct("never deploy on Fridays", context="deployment")
+
+@guard(mem, mode="block")
+def deploy(version: str):
+    push_to_prod(version)
+
+deploy("v2.1")  # → CorrectionWarning: "never deploy on Fridays"
 ```
 
-Works as a standalone library or as an MCP server for Claude Code, Cursor, and any MCP-compatible AI client.
+Also works as an MCP server for Claude Code, Cursor, and any MCP-compatible AI client. Framework integrations for OpenAI, Anthropic, LangChain, CrewAI, and AutoGen included.

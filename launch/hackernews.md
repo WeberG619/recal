@@ -1,44 +1,46 @@
 # Hacker News — Show HN Post
 
 ## Title
-Show HN: NeverOnce – Persistent memory for AI that learns from corrections (400 lines, zero deps)
+Show HN: NeverOnce v0.2.0 – Pre-flight checks for AI agents. Guard decorator + corrections as constraints (~800 lines, zero deps)
 
 ## Body
 
-Every AI agent has amnesia. You correct it on Monday, it makes the same mistake on Tuesday. The 1M context window isn't memory — it's short-term recall that vanishes when the session ends.
+AI agents don't have pre-flight checks. You correct a mistake, the correction dies with the session, the agent repeats it. NeverOnce is a safety layer that fixes this.
 
-I've been running persistent memory on my AI workflows for 4 months. 1,421 memories, 87 corrections, daily use across 11 memory types. My most-used correction has been surfaced 491 times — and the AI hasn't repeated that mistake since the day I stored it.
-
-MCP is free. Agents are free. The missing piece — memory that learns from mistakes — should be free too. Today I'm open-sourcing it as NeverOnce — a 400-line Python library with zero dependencies (just SQLite).
-
-**What makes it different from Mem0, Engram, etc.:**
-
-Most memory systems do Store → Recall. That's it. NeverOnce does five things:
-
-1. **Store** — Save what matters (SQLite + FTS5)
-2. **Recall** — Find what's relevant (BM25 ranking)
-3. **Correct** — Override what was wrong (always surfaces first, never decays)
-4. **Feedback** — Strengthen what helped, weaken what didn't
-5. **Decay** — Unhelpful memories lose importance over time
-
-Step 3 is the one nobody else does well. Corrections are stored at max importance, always surface before regular memories, and are immune to decay. You correct the AI once — it's fixed permanently.
+The core idea: corrections are stored as constraints (max importance, immune to decay, always surface first). The `@guard` decorator enforces them before any function executes.
 
 ```python
-from neveronce import Memory
+from neveronce import Memory, guard
 
-mem = Memory("my_app")
-mem.store("user prefers dark mode")
-mem.correct("never use HTTP for this API — use websockets")
-mem.recall("API connection method")  # correction surfaces first
+mem = Memory("my_agent")
+mem.correct("never deploy on Fridays", context="deployment")
+mem.correct("never call external API without rate limiting", context="api")
 
-# Pre-flight check before taking action
-mem.check("setting up HTTP connection")  # warns you
+@guard(mem, mode="block")
+def deploy(version: str):
+    push_to_prod(version)
+
+deploy("v2.1")  # → CorrectionWarning: "never deploy on Fridays"
 ```
 
-It also ships as an MCP server, so Claude Code, Cursor, or any MCP client gets persistent memory instantly.
+Three modes: `warn` (log + proceed), `block` (raise exception), `review` (queue for human). Every invocation logged to `ActionLog`.
 
-- GitHub: https://github.com/WeberG619/neveronce
-- Zero dependencies (just Python's built-in sqlite3)
-- ~400 lines of actual code
-- 11 tests passing
+4 months production use. 1,421 memories, 87 corrections, most-used surfaced 491 times, zero repeats.
+
+**What's in v0.2.0:**
+
+- `@guard(mem, mode="warn|block|review")` decorator
+- `GuardedAgent` class for wrapping agent framework callables
+- `ActionLog` audit trail
+- Framework integrations: OpenAI, Anthropic, LangChain, CrewAI, AutoGen
+- 74 tests
+
+**Architecture:** SQLite + FTS5 (BM25 ranking). No embeddings, no vector DB, no API calls. Corrections always rank above regular memories in retrieval. The `@guard` decorator queries corrections matching the function name + args before execution.
+
+**What it's not:** It's not a RAG system. It's not a vector store. It's a correction-enforcement layer. Think of it as assertions for agent behavior, built from your own mistake history.
+
+- ~800 lines Python, zero deps
 - MIT licensed
+- MCP server included
+
+GitHub: https://github.com/WeberG619/neveronce
